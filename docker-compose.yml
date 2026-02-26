@@ -1,11 +1,11 @@
 version: '3.8'
+
 services:
   ngrok:
     image: ngrok/ngrok:latest
     restart: unless-stopped
     environment:
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
-    command:
-      - "http"
-      # Указываем протокол прямо в адресе, но без лишних флагов
-      - "https://${PORTAINER_ADDRESS}" 
+    # Прописываем команду одной строкой, чтобы избежать искажения URL
+    command: "http https://192.168.1.107:9443 --insecure-skip-verify"
+    
