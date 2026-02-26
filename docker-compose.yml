@@ -1,22 +1,9 @@
 version: '3.8'
 
 services:
-  zrok:
-    image: openziti/zrok:latest
+  localtonet:
+    image: localtonet/localtonet:latest
+    container_name: localtonet
     restart: unless-stopped
-    # Запускаем от root, чтобы не было ошибки "permission denied"
-    user: root
     environment:
-      - ZROK_TOKEN=zLA2GSWLZekX
-    volumes:
-      - zrok_data:/root/.zrok
-    entrypoint: [ "/bin/sh", "-c" ]
-    command: 
-      - |
-        # Активируем среду (ошибку игнорируем, если уже активировано)
-        zrok enable --headless zLA2GSWLZekX || true;
-        # Запускаем шаринг
-        zrok share public https://192.168.1.107:9443 --backend-mode web --insecure
-
-volumes:
-  zrok_data:
+      - AUTHTOKEN=RtG1H36XuiaxfsBqZoNvJ4eCVL75dwKOm
