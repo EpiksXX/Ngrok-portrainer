@@ -7,6 +7,5 @@ services:
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
     command:
       - "http"
-      - "${PORTAINER_ADDRESS}" # Здесь должен быть только IP:PORT (например, 192.168.1.107:9443)
-      - "--scheme=https"       # Указываем ngrok, что на стороне Portainer используется HTTPS
-      - "--host-header=rewrite" # Это поможет избежать проблем с перенаправлением
+      # Указываем протокол прямо в адресе, но без лишних флагов
+      - "https://${PORTAINER_ADDRESS}" 
