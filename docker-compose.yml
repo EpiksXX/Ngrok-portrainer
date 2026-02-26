@@ -6,6 +6,7 @@ services:
     environment:
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
     command:
-      # Обратите внимание на https:// перед переменной
       - "http"
-      - "https://${PORTAINER_ADDRESS}"
+      - "${PORTAINER_ADDRESS}" # Здесь должен быть только IP:PORT (например, 192.168.1.107:9443)
+      - "--scheme=https"       # Указываем ngrok, что на стороне Portainer используется HTTPS
+      - "--host-header=rewrite" # Это поможет избежать проблем с перенаправлением
