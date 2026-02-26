@@ -5,8 +5,10 @@ services:
     image: localtonet/localtonet:latest
     container_name: localtonet
     restart: unless-stopped
-    # Используем сетевой режим хоста для лучшей связи
+    # Обязательно добавляем tty, чтобы клиент не "зависал" в ожидании ввода
+    tty: true
+    stdin_open: true
     network_mode: host
-    # Передаем токен напрямую команде запуска
-    command: ["RtG1H36XuiaxfsBqZoNvJ4eCVL75dwKOm"]
+    # Важно: сначала 'authtoken', потом сам ключ
+    command: authtoken RtG1H36XuiaxfsBqZoNvJ4eCVL75dwKOm
     
