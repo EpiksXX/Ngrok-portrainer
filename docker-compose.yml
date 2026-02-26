@@ -5,16 +5,13 @@ services:
     image: openziti/zrok:latest
     restart: unless-stopped
     user: "1000:1000"
-    environment:
-      # Твой токен: zLA2GSWLZekX
-      - ZROK_TOKEN=${ZROK_TOKEN}
     volumes:
       - zrok_data:/home/zrok/.zrok
-    # Мы заставляем контейнер сначала выполнить 'enable', а потом 'share'
-    entrypoint: [ "sh", "-c" ]
+    # Мы используем прямой вызов оболочки, чтобы команды шли друг за другом
+    entrypoint: [ "/bin/sh", "-c" ]
     command: 
       - |
-        zrok enable ${ZROK_TOKEN} || true;
+        zrok enable --headless zLA2GSWLZekX && 
         zrok share public https://192.168.1.107:9443 --backend-mode web --insecure
 
 volumes:
