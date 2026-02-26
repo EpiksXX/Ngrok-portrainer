@@ -1,14 +1,11 @@
 version: '3.8'
-
 services:
   ngrok:
     image: ngrok/ngrok:latest
     restart: unless-stopped
     environment:
-      # Токен будет браться из переменных окружения Portainer
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
     command:
-      # Запускаем HTTP-туннель до адреса Portainer
+      # Обратите внимание на https:// перед переменной
       - "http"
-      - "${PORTAINER_ADDRESS}"
-      
+      - "https://${PORTAINER_ADDRESS}"
