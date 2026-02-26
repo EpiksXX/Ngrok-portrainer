@@ -4,20 +4,18 @@ services:
   zrok:
     image: openziti/zrok:latest
     restart: unless-stopped
-    user: "1000:1000" # Рекомендуется для работы с правами внутри контейнера
+    user: "1000:1000"
     environment:
-      # Твой токен из скриншота
-      - ZROK_ENABLE_TOKEN=${ZROK_TOKEN}
+      # Твой токен: zLA2GSWLZekX
+      - ZROK_TOKEN=${ZROK_TOKEN}
     volumes:
-      # Нужно для хранения идентификатора zrok, чтобы он не пропадал
-      - zrok_storage:/home/zrok/.zrok
+      - zrok_data:/home/zrok/.zrok
+    # Мы заставляем контейнер сначала выполнить 'enable', а потом 'share'
+    entrypoint: [ "sh", "-c" ]
     command: 
-      - "share"
-      - "public"
-      - "https://192.168.1.107:9443"
-      - "--backend-mode"
-      - "web"
-      - "--insecure" # Игнорируем самоподписанный SSL сертификат Portainer
+      - |
+        zrok enable ${ZROK_TOKEN} || true;
+        zrok share public https://192.168.1.107:9443 --backend-mode web --insecure
 
 volumes:
-  zrok_storage:
+  zrok_data:
