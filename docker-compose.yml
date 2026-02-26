@@ -5,5 +5,8 @@ services:
     image: localtonet/localtonet:latest
     container_name: localtonet
     restart: unless-stopped
-    environment:
-      - AUTHTOKEN=RtG1H36XuiaxfsBqZoNvJ4eCVL75dwKOm
+    # Используем сетевой режим хоста для лучшей связи
+    network_mode: host
+    # Передаем токен напрямую команде запуска
+    command: ["RtG1H36XuiaxfsBqZoNvJ4eCVL75dwKOm"]
+    
