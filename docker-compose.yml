@@ -1,11 +1,23 @@
 version: '3.8'
 
 services:
-  ngrok:
-    image: ngrok/ngrok:latest
+  zrok:
+    image: openziti/zrok:latest
     restart: unless-stopped
+    user: "1000:1000" # Рекомендуется для работы с правами внутри контейнера
     environment:
-      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
-    # Прописываем команду одной строкой, чтобы избежать искажения URL
-    command: "http https://192.168.1.107:9443 --insecure-skip-verify"
-    
+      # Твой токен из скриншота
+      - ZROK_ENABLE_TOKEN=${ZROK_TOKEN}
+    volumes:
+      # Нужно для хранения идентификатора zrok, чтобы он не пропадал
+      - zrok_storage:/home/zrok/.zrok
+    command: 
+      - "share"
+      - "public"
+      - "https://192.168.1.107:9443"
+      - "--backend-mode"
+      - "web"
+      - "--insecure" # Игнорируем самоподписанный SSL сертификат Portainer
+
+volumes:
+  zrok_storage:
